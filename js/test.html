@@ -1,0 +1,109 @@
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<input id="t1"></input>
+<script>
+    // 可开关的控制台输出
+    var sout = ()=>{}
+    sout.open = 1;
+    sout.sw = (x)=>{sout.open=x}
+    sout.log = (...x)=>{
+        if (sout.open) {
+            console.log(...x);
+        }
+    }
+    // 关闭输出
+    sout.sw(0);
+
+    /***** jquery事件 *****/
+    // 输入框失焦时触发blur事件
+    $("#t1").blur(function(e){
+        console.log("我没了啊兄dei" + e.target.value);
+    });
+
+    /***** js *****/
+    // lambda表达式抽出来还能不能用(能)
+    let arr = [0,1,2,3];
+    arr.forEach((e)=>{sout.log(e)});
+    function t2(e) {
+        sout.log(e);
+    }
+    arr.forEach(t2);
+
+    // 调用并打印结果
+    function timeit(f) {
+        let n = arguments.length;
+        let start = new Date();
+        if (n == 0) {
+            sout.log("输入不对劲：至少要将方法传入");
+            return;
+        } else if (n == 1) {
+            sout.log("无参数输入，函数结果为："+f());
+            return;
+        } else if (n == 2) {
+            x = arguments[1];
+        } else {
+            x = "("
+            for (let i=1; i<n; i++) {
+                x += arguments[i];
+            }
+            x += ")";
+        }
+        let nargs = [].slice.call(arguments,1);
+        sout.log("输入为["+x+"]的结果是："+f(...nargs));
+        sout.log("本次调用耗时：", new Date() - start, "s");
+    }
+
+    // 16进制数用16进制字符串表示
+    function to_hex(x) {
+        if (x >= 16) return false;
+        if (x >= 10) return ['a','b','c','d','e','f'][x-10];
+        return x + "";
+    }
+
+    // 打印十进制转16进制字符串
+    function oct_hex(x) {
+        let res = "";
+        while (x) {
+            res = to_hex(x % 16) + res;
+            x = Math.floor(x/16);
+        }
+        res = '0x'+res;
+        return res;
+    }
+    // 结果0xdac
+    oct_hex(3500);
+    timeit(oct_hex, 3500);
+
+    sout.sw(1); // 打开输出
+
+    /*
+        utf-8 编码规则
+        0000 0000-0000 007F 0xxxxxxx
+        0000 0080-0000 07FF 110xxxxx 10xxxxxx
+        0000 0800-0000 FFFF 1110xxxx 10xxxxxx 10xxxxxx
+        0001 0000-001F FFFF 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+        0020 0000-03FF FFFF 111110xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
+        0400 0000-7FFF FFFF 1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
+    */
+    // 判断字符串是否为utf-8编码
+    function isutf8(s) {
+        for (let i=0; i<s.length; i++) {
+            let chr = s.charCodeAt(i);
+            let c = s.charAt(i);
+            if (chr >= 128) {
+                try {
+                    let tc = encodeURIComponent(c);
+                    // sout.log(c, oct_hex(chr), tc);
+                } catch {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    let printstreamutf8 = (x) => {return x + (isutf8(x)?"是":"不是") + "utf-8格式";}
+    let tutf8 = "月入1800，摸鱼笑哈哈。";
+    let futf8 = "我给你🐎来𝟱拳";
+    timeit(isutf8, tutf8);
+    timeit(isutf8, futf8);
+
+</script>
