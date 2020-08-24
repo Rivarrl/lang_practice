@@ -1,4 +1,7 @@
 <?php 
+/*
+    反射
+*/
 function __name_reflection_getargsarray($class, $method, array $args) {
     $reflection = new ReflectionMethod($class, $method);
     $ret = array();
