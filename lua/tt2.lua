@@ -56,7 +56,31 @@ end
 oo = function(x)
     -- 函数参数
     x = 1
+    for k, v in pairs(pp1) do
+        -- for循环内重新赋值
+        v = tonumber(v)
+        k = x
+    end
 end
 
+-- 嵌套table
+local d = {x={
+    y = 1
+}, q = 2}
+
+--[[ 啊
+    测试多行注释 p = 1
+]]
+
+--其他异常
+--引号中的
+oo("x=1")
+local qwer = "sss" +
+"a = 1"
+--没在引号里的sql语句
+select 1 from t1 where t1.id = 1
+
+qx = 83
+
 -- 结果
--- 1:gg 10:pp1 12:pp3 21:localxx 24:yylocal 30:zz 40:xxx 40:yyy 42:zzz 43:www 45:vvv 49:wrrwr 52:x 55:oo
+-- 1:gg 10:pp1 12:pp3 21:localxx 24:yylocal 30:zz 40:xxx 40:yyy 42:zzz 43:www 45:vvv 49:wrrwr 52:x 55:oo 83:qx

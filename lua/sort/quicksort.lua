@@ -36,5 +36,5 @@ end
 
 local arr = {4,5,3,1,2}
 quicksort(arr)
-local ptb = require "ptb"
-ptb:l(arr)
+local cc = require("common")
+cc:parr(arr)

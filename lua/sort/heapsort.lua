@@ -1,5 +1,5 @@
 package.path = package.path ..';../utils/?.lua'
-local f = require "common"
+local cc = require("common")
 
 -- 交换
 function swap(arr, i, j)
@@ -38,6 +38,6 @@ function heapsort(arr)
 end
 
 local arr = {4,5,7,3,1,6,2}
-f:ptb(arr)
+cc:parr(arr)
 heapsort(arr)
-f:ptb(arr)
+cc:parr(arr)
